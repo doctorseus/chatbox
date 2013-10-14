@@ -1,10 +1,13 @@
 package eu.drseus.cb.backend.forum;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
+
+import javax.security.auth.login.LoginException;
 
 import org.apache.http.Consts;
 import org.apache.http.HttpEntity;
@@ -24,6 +27,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import eu.drseus.cb.backend.forum.chat.Message;
+import eu.drseus.cb.backend.forum.exception.ForumIOException;
 import eu.drseus.cb.backend.forum.user.User;
 
 public class Forum {
@@ -39,7 +43,7 @@ public class Forum {
 	     httpclient = HttpClients.custom().setDefaultCookieStore(cookieStore).build();
 	}
 	
-	public void login(String username, String password) throws Exception {
+	public void login(String username, String password) throws ForumIOException, LoginException {
 		
 		HttpPost httpPostLogin = new HttpPost(URL_FORUM + "login.php?do=login");
 		
@@ -56,30 +60,29 @@ public class Forum {
 
 		httpPostLogin.setEntity(new UrlEncodedFormEntity(nvps, Consts.UTF_8));
 		
-        CloseableHttpResponse response = httpclient.execute(httpPostLogin);
         
-        try {
-            HttpEntity entity = response.getEntity();
+		try {
+			CloseableHttpResponse response = httpclient.execute(httpPostLogin);
+			
+			try {
+				HttpEntity entity = response.getEntity();
 
-            /*
-            
-            System.out.println("Login form get: " + response.getStatusLine());
-           
-            System.out.println("Post logon cookies:");
-            List<Cookie> cookies = cookieStore.getCookies();
-            if (cookies.isEmpty()) {
-                System.out.println("None");
-            } else {
-                for (int i = 0; i < cookies.size(); i++) {
-                    System.out.println("- " + cookies.get(i).toString());
-                }
-            }
-            */
-            EntityUtils.consume(entity);
-            
-        } finally {
-            response.close();
-        }
+				//TODO: Check if login is successful.
+				boolean b = false;
+				if(b)
+					throw new LoginException("You have entered an invalid username or password.");
+				
+				EntityUtils.consume(entity);
+
+			} finally {
+				response.close();
+			}
+			
+		} catch (IOException e) {
+			throw new ForumIOException(e);
+		}
+        
+       
         
 	}
 

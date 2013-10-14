@@ -1,15 +1,27 @@
 package eu.drseus.cb.backend;
 
 import java.io.IOException;
-import java.util.LinkedHashMap;
+import java.util.ArrayList;
 
+import javax.security.auth.login.LoginException;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.http.client.ClientProtocolException;
 
 import eu.drseus.cb.backend.forum.Forum;
 import eu.drseus.cb.backend.forum.chat.Message;
-import eu.drseus.cb.backend.util.MessageCache;
+import eu.drseus.cb.backend.forum.exception.ForumIOException;
+import eu.drseus.cb.backend.util.MessageManager;
 
 public class Backend {
+	
+	private Log log = LogFactory.getLog(Backend.class);
+	
+	private final String C_USER_NAME = "chatbot";
+	private final String C_USER_PWD = "ce49e4a541068d49";
+	
+	private final double C_REFRESH_DELAY = 5.0; //Seconds
 	
 	/*
 	 * Username: chatbot
@@ -20,38 +32,53 @@ public class Backend {
 		new Backend().run(args);
 	}
 
-	private MessageCache cache = new MessageCache();
+	private Forum forum = new Forum();
+	
+	private MessageManager messageM = new MessageManager();
 	
 	public void run(String[] args){
-		
-		final Forum forum = new Forum();
-		
-		try {
-			
-			forum.login("chatbot", "ce49e4a541068d49");
 
-			Thread thread = new Thread(new Runnable() {
+		try {
+			//Login into Forum
+			forum.login(C_USER_NAME, C_USER_PWD);
+			
+			//If successful start the chatbox-fetcher thread
+			ChatboxFetcherThread thread = new ChatboxFetcherThread();
+			thread.start();			
+			
+		} catch (LoginException e) {
+			log.fatal(e.getMessage(), e);
+			System.exit(-1);
+		} catch (ForumIOException e) {
+			log.fatal(e.getMessage(), e);
+			System.exit(-1);
+		}
+		
+	}
+	
+	private class ChatboxFetcherThread extends Thread {
+
+		@Override
+		public void run() {
+			while(this.isAlive() && !this.isInterrupted()){
 				
-				@Override
-				public void run() {
+				try {
 					
-					try {
-						forum.fetchChatbox();
-					} catch (Exception e) {
-						e.printStackTrace();
+					ArrayList<Message> messageList = forum.fetchChatbox();
+					messageM.processMessages(messageList);
+					
+					for(Message m:messageList){
+						System.out.println(m.toString());
 					}
 					
-					
-					try {
-						Thread.sleep(2000);
-					} catch (InterruptedException e) { }
+				} catch (Exception e) {
+					log.error(e.getMessage(), e);
 				}
+				try {
+					Thread.sleep((long) (C_REFRESH_DELAY * 1000.0));
+				} catch (InterruptedException e) { }
 				
-			});
-			thread.start();
-			
-		} catch (Exception e) {
-			e.printStackTrace();
+			}
 		}
 		
 	}

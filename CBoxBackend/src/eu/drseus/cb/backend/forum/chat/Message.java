@@ -1,5 +1,6 @@
 package eu.drseus.cb.backend.forum.chat;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 import eu.drseus.cb.backend.forum.user.User;
@@ -13,6 +14,8 @@ public class Message {
 	
 	private String message;
 
+	private ArrayList<String> messageHistory = new ArrayList<>();
+	
 	public Message(long id, User user, Date time, String message) {
 		super();
 		this.id = id;
