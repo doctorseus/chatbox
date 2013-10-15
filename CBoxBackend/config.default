@@ -1,6 +1,7 @@
 # Forum Account 
 forum.user = user
 forum.password = password
+forum.refreshDelay = 5.0
 
 # Database (PostgreSQL)
 db.host = localhost

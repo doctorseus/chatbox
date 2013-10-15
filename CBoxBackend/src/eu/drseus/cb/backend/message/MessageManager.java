@@ -3,9 +3,14 @@ package eu.drseus.cb.backend.message;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import eu.drseus.cb.backend.forum.chat.Message;
 
 public class MessageManager {
+	
+	private Log log = LogFactory.getLog(MessageManager.class);
 	
 	private ArrayList<IMessageListener> listeners = new ArrayList<>();
 	
@@ -36,6 +41,8 @@ public class MessageManager {
 	}
 	
 	private void notifyOnUpdate(ArrayList<Message> newMessages, ArrayList<Message> updatedMessages){
+		log.info("Notify listeners about an update. (" + newMessages.size()
+				+ " new, " + updatedMessages.size() + " updated)");
 		for(IMessageListener l:listeners)
 			l.onUpdate(newMessages, updatedMessages);
 	}

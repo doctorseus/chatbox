@@ -19,12 +19,7 @@ import eu.drseus.cb.backend.util.Config;
 public class Backend {
 	
 	private Log log = LogFactory.getLog(Backend.class);
-	
-	private final String C_USER_NAME = "chatbot";
-	private final String C_USER_PWD = "";
-	
-	private final double C_REFRESH_DELAY = 5.0; //Seconds
-	
+
 	/*
 	 * Username: chatbot
 	 * Password: ***********
@@ -39,14 +34,22 @@ public class Backend {
 	private MessageManager messageM = new MessageManager();
 	
 	public void run(String[] args){
-
+		
+		log.debug("DEBUG");
+		log.error("ERROR");
+		log.fatal("FATAL");
+		log.info("INFO");
+		log.trace("TRACE");
+		log.warn("WARN");
+		
 		try {
 			//Load Config
 			Config.loadConfig("config");
 			//System.out.println(Config.asString());
 			
 			//Forum Login
-			forum.login(C_USER_NAME, C_USER_PWD);
+			forum.login(Config.forum.user, Config.forum.password);
+			log.info("Forum login with username = "+Config.forum.user+" and password = ******** successful.");
 			
 			//If successful start the chatbox-fetcher thread
 			ChatboxFetcherThread thread = new ChatboxFetcherThread();
@@ -59,7 +62,7 @@ public class Backend {
 			log.fatal(e.getMessage(), e);
 			System.exit(-1);
 		} catch (ConfigurationException e) {
-			log.fatal(e.getMessage(), e);
+			log.fatal("Failed to load config file. ("+e.getMessage()+")");
 			System.exit(-1);
 		}
 		
@@ -80,7 +83,7 @@ public class Backend {
 					log.error(e.getMessage(), e);
 				}
 				try {
-					Thread.sleep((long) (C_REFRESH_DELAY * 1000.0));
+					Thread.sleep((long) (Config.forum.refreshDelay * 1000.0));
 				} catch (InterruptedException e) { }
 				
 			}

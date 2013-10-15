@@ -18,10 +18,11 @@ public class Config {
 		
 		public String user;
 		public String password;
+		public Double refreshDelay;
 		
 		@Override
 		public String toString() {
-			return "Forum [user=" + user + ", password=" + password + "]";
+			return "Forum [user=" + user + ", password=" + password + ", refreshDelay=" + refreshDelay + "]";
 		}
 		
 	}
@@ -29,7 +30,7 @@ public class Config {
 	public static class Database {
 		
 		public String host;
-		public int port;
+		public Integer port;
 		public String user;
 		public String password;
 		public String database;
@@ -48,17 +49,23 @@ public class Config {
 	}
 
 	public static void loadConfig(String file) throws ConfigurationException {
-		Configuration config = new PropertiesConfiguration(file);
-		
-		forum.user = config.getString("forum.user", "user");
-		forum.password = config.getString("forum.password", "password");
+		try {
 
-		db.host = config.getString("db.host", "localhost");
-		db.port = config.getInt("db.port", 0);
-		db.user = config.getString("db.user", "user");
-		db.password = config.getString("db.password", "password");
-		db.database = config.getString("db.database", "database");
-		
+			Configuration config = new PropertiesConfiguration(file);
+
+			forum.user = config.getString("forum.user", "user");
+			forum.password = config.getString("forum.password", "password");
+			forum.refreshDelay = config.getDouble("forum.refreshDelay", 5.0);
+
+			db.host = config.getString("db.host", "localhost");
+			db.port = config.getInt("db.port", 0);
+			db.user = config.getString("db.user", "user");
+			db.password = config.getString("db.password", "password");
+			db.database = config.getString("db.database", "database");
+
+		} catch (Exception e) {
+			throw new ConfigurationException(e);
+		}
 	}
 
 
