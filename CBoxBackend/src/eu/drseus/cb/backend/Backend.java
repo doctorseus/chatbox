@@ -19,13 +19,13 @@ public class Backend {
 	private Log log = LogFactory.getLog(Backend.class);
 	
 	private final String C_USER_NAME = "chatbot";
-	private final String C_USER_PWD = "b2ce49e4a541068d495";
+	private final String C_USER_PWD = "";
 	
 	private final double C_REFRESH_DELAY = 5.0; //Seconds
 	
 	/*
 	 * Username: chatbot
-	 * Password: ce49e4a541068d49
+	 * Password: ***********
 	 */
 	
 	public static void main(String[] args) throws ClientProtocolException, IOException {
