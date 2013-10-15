@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import javax.security.auth.login.LoginException;
 
+import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.http.client.ClientProtocolException;
@@ -13,6 +14,7 @@ import eu.drseus.cb.backend.forum.Forum;
 import eu.drseus.cb.backend.forum.chat.Message;
 import eu.drseus.cb.backend.forum.exception.ForumIOException;
 import eu.drseus.cb.backend.message.MessageManager;
+import eu.drseus.cb.backend.util.Config;
 
 public class Backend {
 	
@@ -39,7 +41,11 @@ public class Backend {
 	public void run(String[] args){
 
 		try {
-			//Login into Forum
+			//Load Config
+			Config.loadConfig("config");
+			//System.out.println(Config.asString());
+			
+			//Forum Login
 			forum.login(C_USER_NAME, C_USER_PWD);
 			
 			//If successful start the chatbox-fetcher thread
@@ -50,6 +56,9 @@ public class Backend {
 			log.fatal(e.getMessage(), e);
 			System.exit(-1);
 		} catch (ForumIOException e) {
+			log.fatal(e.getMessage(), e);
+			System.exit(-1);
+		} catch (ConfigurationException e) {
 			log.fatal(e.getMessage(), e);
 			System.exit(-1);
 		}

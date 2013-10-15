@@ -1,0 +1,10 @@
+# Forum Account 
+forum.user = user
+forum.password = password
+
+# Database (PostgreSQL)
+db.host = localhost
+db.port = 0
+db.user = user
+db.password = password
+db.database = database

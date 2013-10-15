@@ -17,5 +17,7 @@
 			<attribute name="javadoc_location" value="jar:platform:/resource/CBoxBackend/libs/jsoup/jsoup-1.7.2-javadoc.jar!/"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="libs/commons-lang3-3.1/commons-lang3-3.1.jar"/>
+	<classpathentry kind="lib" path="libs/commons-lang-2.6/commons-lang-2.6.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
