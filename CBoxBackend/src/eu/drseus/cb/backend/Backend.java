@@ -12,14 +12,14 @@ import org.apache.http.client.ClientProtocolException;
 import eu.drseus.cb.backend.forum.Forum;
 import eu.drseus.cb.backend.forum.chat.Message;
 import eu.drseus.cb.backend.forum.exception.ForumIOException;
-import eu.drseus.cb.backend.util.MessageManager;
+import eu.drseus.cb.backend.message.MessageManager;
 
 public class Backend {
 	
 	private Log log = LogFactory.getLog(Backend.class);
 	
 	private final String C_USER_NAME = "chatbot";
-	private final String C_USER_PWD = "ce49e4a541068d49";
+	private final String C_USER_PWD = "b2ce49e4a541068d495";
 	
 	private final double C_REFRESH_DELAY = 5.0; //Seconds
 	
@@ -66,11 +66,7 @@ public class Backend {
 					
 					ArrayList<Message> messageList = forum.fetchChatbox();
 					messageM.processMessages(messageList);
-					
-					for(Message m:messageList){
-						System.out.println(m.toString());
-					}
-					
+
 				} catch (Exception e) {
 					log.error(e.getMessage(), e);
 				}

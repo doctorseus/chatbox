@@ -86,17 +86,23 @@ public class Forum {
         
 	}
 
+	/**
+	 * Returns the newest chatbox messages. (order: new to old, like on the page)
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
 	public ArrayList<Message> fetchChatbox() throws Exception {
-        //To prevent Jsoup parsing errors. (Chatbox sends a corrupt html page)
+		// To prevent Jsoup parsing errors. (Chatbox sends a corrupt html page)
 		String htmlBefore = "<html><head></head><body><table>";
-        String htmlAfter = "</table></body></html>";
-        
-        //GMT(+0) Timezone
-        SimpleDateFormat timeDateFormat = new SimpleDateFormat("dd-MM-yy, HH:mm");
-        timeDateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
-		
+		String htmlAfter = "</table></body></html>";
+
+		// GMT(+0) Timezone
+		SimpleDateFormat timeDateFormat = new SimpleDateFormat("dd-MM-yy, HH:mm");
+		timeDateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
+
 		ArrayList<Message> chatMessages = new ArrayList<>();
-        
+
 		HttpGet httpGetChatboxMessages = new HttpGet(URL_FORUM + "misc.php?show=ccbmessages");
 
         CloseableHttpResponse response = httpclient.execute(httpGetChatboxMessages);
@@ -127,7 +133,6 @@ public class Forum {
             	Message message = new Message(Long.parseLong(messageId), user, messageTime, messageContent);
             	chatMessages.add(message);
             	
-            	//System.out.println(message.toString());	
             }
             
             EntityUtils.consume(entity);
@@ -136,6 +141,7 @@ public class Forum {
             response.close();
         }
 		
+        //Collections.reverse(chatMessages); //uncomment this for reverse order new->old  TO old->new
         return chatMessages;
         
 	}

@@ -1,4 +1,4 @@
-package eu.drseus.cb.backend.util;
+package eu.drseus.cb.backend.message;
 
 import java.util.LinkedHashMap;
 
@@ -6,25 +6,25 @@ import eu.drseus.cb.backend.forum.chat.Message;
 
 public class MessageCache {
 
+	@SuppressWarnings("unused")
+	private int cacheSize;
+	
 	private LinkedHashMap<Long, Message> hashMap = new LinkedHashMap<>();
 
 	public MessageCache(int size) {
-
+		this.cacheSize = size;
 	}
 
 	public boolean contains(long messageId) {
-		// TODO Auto-generated method stub
-		return false;
+		return hashMap.containsKey(messageId);
 	}
 
 	public Message get(long messageId) {
-		// TODO Auto-generated method stub
-		return null;
+		return hashMap.get(messageId);
 	}
 
 	public void put(Message m) {
-		// TODO Auto-generated method stub
-		
+		hashMap.put(m.getId(), m);
 	}
 
 }
