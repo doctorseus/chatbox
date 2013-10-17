@@ -85,9 +85,14 @@ public class MessageManager {
 		
 	}
 	
-	@SuppressWarnings("unused")
-	private Message[] getLast(int limit){
-		return null;
+	
+	public Message[] getLast(int limit){
+		ArrayList<Long> lastIds = order.getLast(30);
+		Message[] result = new Message[lastIds.size()];
+		for(int i = 0; i < lastIds.size(); i++){
+			result[i] = cache.get(lastIds.get(i));
+		}
+		return result;
 	}
 
 }

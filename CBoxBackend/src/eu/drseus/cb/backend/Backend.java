@@ -13,8 +13,11 @@ import org.apache.http.client.ClientProtocolException;
 import eu.drseus.cb.backend.forum.Forum;
 import eu.drseus.cb.backend.forum.chat.Message;
 import eu.drseus.cb.backend.forum.exception.ForumIOException;
+import eu.drseus.cb.backend.gcm.GCMManager;
+import eu.drseus.cb.backend.gcm.PushService;
 import eu.drseus.cb.backend.message.MessageManager;
 import eu.drseus.cb.backend.util.Config;
+import eu.drseus.cb.backend.web.WebServer;
 
 public class Backend {
 	
@@ -31,7 +34,12 @@ public class Backend {
 
 	private Forum forum = new Forum();
 	
-	private MessageManager messageM = new MessageManager();
+	private GCMManager gcmManager = new GCMManager();
+	private MessageManager messageManager = new MessageManager();
+	
+	private PushService pushService = new PushService();
+	
+	private WebServer webServer = new WebServer(this);
 	
 	public void run(String[] args){
 		
@@ -55,6 +63,12 @@ public class Backend {
 			ChatboxFetcherThread thread = new ChatboxFetcherThread();
 			thread.start();			
 			
+			//Register the PushService to the MessageManager
+			messageManager.addListener(pushService);
+			
+			//At the end, start the WebServer
+			webServer.start();
+			
 		} catch (LoginException e) {
 			log.fatal(e.getMessage(), e);
 			System.exit(-1);
@@ -64,10 +78,31 @@ public class Backend {
 		} catch (ConfigurationException e) {
 			log.fatal("Failed to load config file. ("+e.getMessage()+")");
 			System.exit(-1);
+		} catch (Exception e) {
+			log.fatal(e.getMessage(), e);
 		}
 		
 	}
 	
+
+	public PushService getPushService() {
+		return pushService;
+	}
+
+	public MessageManager getMessageManager() {
+		return messageManager;
+	}
+
+
+	public GCMManager getGcmManager() {
+		return gcmManager;
+	}
+
+	public WebServer getWebServer() {
+		return webServer;
+	}
+
+
 	private class ChatboxFetcherThread extends Thread {
 
 		@Override
@@ -77,7 +112,7 @@ public class Backend {
 				try {
 					
 					ArrayList<Message> messageList = forum.fetchChatbox();
-					messageM.processMessages(messageList);
+					messageManager.processMessages(messageList);
 
 				} catch (Exception e) {
 					log.error(e.getMessage(), e);
