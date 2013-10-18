@@ -3,6 +3,9 @@ forum.user = user
 forum.password = password
 forum.refreshDelay = 5.0
 
+# Google Cloud Messaging
+gcm.key = defaultkey
+
 # Database (PostgreSQL)
 db.host = localhost
 db.port = 0

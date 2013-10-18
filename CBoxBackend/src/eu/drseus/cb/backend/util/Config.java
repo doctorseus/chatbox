@@ -8,10 +8,14 @@ public class Config {
 
 	public static Forum forum;
 	public static Database db;
+	public static GCM gcm;
+	public static Web web;
 	
 	static {
 		forum = new Forum();
 		db = new Database();
+		gcm = new GCM();
+		web = new Web();
 	}
 	
 	public static class Forum {
@@ -23,6 +27,28 @@ public class Config {
 		@Override
 		public String toString() {
 			return "Forum [user=" + user + ", password=" + password + ", refreshDelay=" + refreshDelay + "]";
+		}
+		
+	}
+	
+	public static class GCM {
+		
+		public String key;
+
+		@Override
+		public String toString() {
+			return "GCM [key=" + key + "]";
+		}
+		
+	}
+	
+	public static class Web {
+		
+		public Integer port;
+
+		@Override
+		public String toString() {
+			return "Web [port=" + port + "]";
 		}
 		
 	}
@@ -56,6 +82,10 @@ public class Config {
 			forum.user = config.getString("forum.user", "user");
 			forum.password = config.getString("forum.password", "password");
 			forum.refreshDelay = config.getDouble("forum.refreshDelay", 5.0);
+			
+			gcm.key = config.getString("gcm.key", "defaultkey");
+			
+			web.port = config.getInt("web.port", 8080);
 
 			db.host = config.getString("db.host", "localhost");
 			db.port = config.getInt("db.port", 0);

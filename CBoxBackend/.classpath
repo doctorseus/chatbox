@@ -31,7 +31,6 @@
 	<classpathentry kind="lib" path="libs/hibernate-release-4.3.0.Beta5/lib/required/jboss-transaction-api_1.2_spec-1.0.0.Final.jar"/>
 	<classpathentry kind="lib" path="libs/dbdrivers/postgresql-9.2-1003.jdbc4.jar"/>
 	<classpathentry kind="lib" path="libs/simple-json/json-simple-1.1.1.jar"/>
-	<classpathentry kind="lib" path="libs/gcm/gcm-server.jar"/>
 	<classpathentry kind="lib" path="libs/log4j/log4j-api-2.0-beta9.jar"/>
 	<classpathentry kind="lib" path="libs/log4j/log4j-core-2.0-beta9.jar"/>
 	<classpathentry kind="lib" path="libs/log4j/log4j-jcl-2.0-beta9.jar"/>
@@ -43,5 +42,6 @@
 	<classpathentry kind="lib" path="libs/jetty-9/lib/jetty-servlets-9.0.6.v20130930.jar"/>
 	<classpathentry kind="lib" path="libs/jetty-9/lib/servlet-api-3.0.jar"/>
 	<classpathentry kind="lib" path="libs/jetty-9/lib/jetty-util-9.0.6.v20130930.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/CBoxShared"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -123,14 +123,14 @@ public class Forum {
             	String userId = chatRow.select("td").get(0).select("a").get(1).attr("href").split("u=")[1];
             	String userName = chatRow.select("td").get(0).select("a").get(1).text();
             	
-            	User user = new User(Long.parseLong(userId), userName);
+            	User user = User.create(Long.parseLong(userId), userName);
             	
             	String messageId = chatRow.select("td").get(0).select("a").get(0).attr("href").split("ccbloc=")[1];
             	String timeString = chatRow.select("td").get(0).select("span").text().split("\\]")[0].substring(1);
             	Date messageTime = timeDateFormat.parse(timeString);
             	String messageContent =  chatRow.select("td").get(1).html();
             	
-            	Message message = new Message(Long.parseLong(messageId), user, messageTime, messageContent);
+            	Message message = Message.create(Long.parseLong(messageId), user, messageTime, messageContent);
             	chatMessages.add(message);
             	
             }

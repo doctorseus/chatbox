@@ -1,5 +1,7 @@
 package eu.drseus.cb.backend.web.servlet.util;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -15,24 +17,24 @@ import org.apache.commons.codec.net.URLCodec;
  */
 public class URLBuilder {
 
-	public static URL create(String path) {
-		return new URL(path);
+	public static PURL create(String path) {
+		return new PURL(path);
 	}
 
 	/**
 	 * Represents a single URL
 	 */
-	public static class URL {
+	public static class PURL {
 
 		String path;
 
 		HashMap<String, String> parameter = new HashMap<String, String>();
 
-		public URL(String path) {
+		public PURL(String path) {
 			this.path = path;
 		}
 
-		public URL add(String name, String value) {
+		public PURL add(String name, String value) {
 			parameter.put(name, value);
 			return this;
 		}
@@ -56,6 +58,15 @@ public class URLBuilder {
 			}
 			return path + s;
 		}
+		
+		public URL getURL() throws MalformedURLException {
+			try{
+				return new URL(get());	
+			}catch(MalformedURLException e){
+				return null;
+			}
+		}
+		
 	}
 
 	@SuppressWarnings("serial")

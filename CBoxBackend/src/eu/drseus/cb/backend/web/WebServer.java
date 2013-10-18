@@ -14,17 +14,16 @@ public class WebServer {
 	
 	private Server jetty;
 	
-	public WebServer(Backend backend){
-		this.backend = backend;
-		init();
-	}
+	public WebServer(){	}
 	
-	private void init() {
-		jetty = new Server(8080);
+	public void init(Backend backend, int port) {
+		this.backend = backend;
+		
+		jetty = new Server(port);
 		
 		ServletContextHandler servletHandler = new ServletContextHandler(ServletContextHandler.SESSIONS);
-		servletHandler.addServlet(new ServletHolder(new CmdServlet(backend)), "/cmd");
-		servletHandler.addServlet(new ServletHolder(new ServServlet(backend)), "/serv");
+		servletHandler.addServlet(new ServletHolder(new CmdServlet(this.backend)), "/cmd");
+		servletHandler.addServlet(new ServletHolder(new ServServlet(this.backend)), "/serv");
 		
         jetty.setHandler(servletHandler);
         

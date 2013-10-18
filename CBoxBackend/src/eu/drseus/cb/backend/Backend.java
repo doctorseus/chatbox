@@ -38,8 +38,7 @@ public class Backend {
 	private MessageManager messageManager = new MessageManager();
 	
 	private PushService pushService = new PushService();
-	
-	private WebServer webServer = new WebServer(this);
+	private WebServer webServer = new WebServer();
 	
 	public void run(String[] args){
 		
@@ -53,7 +52,10 @@ public class Backend {
 		try {
 			//Load Config
 			Config.loadConfig("config");
-			//System.out.println(Config.asString());
+			
+			//Init Moduls
+			pushService.init(this, Config.gcm.key);
+			webServer.init(this, Config.web.port);
 			
 			//Forum Login
 			forum.login(Config.forum.user, Config.forum.password);

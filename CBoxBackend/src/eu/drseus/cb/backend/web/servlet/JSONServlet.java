@@ -51,7 +51,15 @@ public class JSONServlet extends HttpServlet {
 	@SuppressWarnings("unchecked")
 	public static JSONObject getError(String errorMsg){
 		JSONObject o = new JSONObject();
+		o.put("status", "failed");
 		o.put("error", errorMsg);
+		return o;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public static JSONObject getSuccess() {
+		JSONObject o = new JSONObject();
+		o.put("status", "ok");
 		return o;
 	}
 	

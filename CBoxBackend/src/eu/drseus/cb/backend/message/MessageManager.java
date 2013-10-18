@@ -41,7 +41,7 @@ public class MessageManager {
 	}
 	
 	private void notifyOnUpdate(ArrayList<Message> newMessages, ArrayList<Message> updatedMessages){
-		log.info("Notify listeners about an update. (" + newMessages.size()
+		log.trace("Notify listeners about an update. (" + newMessages.size()
 				+ " new, " + updatedMessages.size() + " updated)");
 		for(IMessageListener l:listeners)
 			l.onUpdate(newMessages, updatedMessages);
