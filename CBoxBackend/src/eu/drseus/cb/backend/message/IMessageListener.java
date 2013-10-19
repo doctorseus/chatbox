@@ -2,7 +2,7 @@ package eu.drseus.cb.backend.message;
 
 import java.util.ArrayList;
 
-import eu.drseus.cb.backend.forum.chat.Message;
+import eu.drseus.cb.shared.forum.chat.Message;
 
 public interface IMessageListener {
 	void onUpdate(ArrayList<Message> newMessages, ArrayList<Message> updatedMessages);	

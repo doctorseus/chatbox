@@ -5,7 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import eu.drseus.cb.backend.forum.user.User;
+import eu.drseus.cb.shared.forum.user.User;
 
 @Entity
 @Table(name = "users")

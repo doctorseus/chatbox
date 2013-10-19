@@ -2,7 +2,7 @@ package eu.drseus.cb.android.messages;
 
 import java.util.LinkedHashMap;
 
-import eu.drseus.cb.backend.forum.chat.Message;
+import eu.drseus.cb.shared.forum.chat.Message;
 
 public class MessageCache {
 

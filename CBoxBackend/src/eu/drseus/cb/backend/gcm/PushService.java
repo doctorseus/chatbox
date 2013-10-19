@@ -15,8 +15,8 @@ import com.google.android.gcm.server.Result;
 import com.google.android.gcm.server.Sender;
 
 import eu.drseus.cb.backend.Backend;
-import eu.drseus.cb.backend.forum.chat.Message;
 import eu.drseus.cb.backend.message.IMessageListener;
+import eu.drseus.cb.shared.forum.chat.Message;
 
 public class PushService implements IMessageListener {
 

@@ -28,11 +28,18 @@ public class CmdServlet extends JSONServlet {
 	
 	@Override
 	protected JSONObject processGet(RequestInformation reqInfo) {
+		//DEBUG
+		return processPost(reqInfo);
+		//return super.processGet(reqInfo);
+	}
+	
+	@Override
+	protected JSONObject processPost(RequestInformation reqInfo) {
 		try {
 			String type = reqInfo.getParameters().getString("action");
-			ICmd serv = cmds.get(type);
-			if(serv != null){
-				return serv.processCommand(reqInfo);
+			ICmd cmd = cmds.get(type);
+			if(cmd != null){
+				return cmd.processCommand(reqInfo);
 			}else{
 				return super.processGet(reqInfo);
 			}

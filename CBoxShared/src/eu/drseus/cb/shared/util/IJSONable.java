@@ -1,4 +1,4 @@
-package eu.drseus.cb.backend.util;
+package eu.drseus.cb.shared.util;
 
 import org.json.simple.JSONObject;
 

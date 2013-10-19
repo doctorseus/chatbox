@@ -1,16 +1,16 @@
 package eu.drseus.cb.android.backend;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import android.util.Log;
-
 import eu.drseus.cb.android.util.AsyncCallback;
 import eu.drseus.cb.android.util.net.HttpClient;
-import eu.drseus.cb.android.util.net.HttpClient.HttpUrlFetcherCallback;
-import eu.drseus.cb.android.util.net.HttpClient.HttpUrlFetcherResult;
+import eu.drseus.cb.android.util.net.HttpClient.HttpRequestCallback;
+import eu.drseus.cb.android.util.net.HttpClient.HttpResult;
 import eu.drseus.cb.android.util.net.URLBuilder;
 import eu.drseus.cb.android.util.net.URLBuilder.PURL;
-import eu.drseus.cb.backend.forum.chat.Message;
+import eu.drseus.cb.shared.forum.chat.Message;
 
 public class BackendService {
 	
@@ -28,7 +28,26 @@ public class BackendService {
 		return i;
 	}
 
-	public void registerDevice(String regId){
+	public void registerDevice(String regId, final PostCallback callback){
+		PURL url = URLBuilder.create(BACKEND_URL+CMD_SERVICE);
+		url.add("action", "registerDevice");
+		
+		HashMap<String, String> p = new HashMap<String, String>();
+		p.put("regId", regId);
+		HttpClient.post(url.getURL(), p, new HttpRequestCallback(callback.getTimeout()) {
+			
+			@Override
+			public void onResult(HttpResult result) {
+				String payload = "";
+				//TODO: Parse results...
+				callback.onResult(payload);
+			}
+			
+			@Override
+			public void onError(CallbackException e) {
+				callback.onError(e);
+			}
+		});
 		
 	}
 	
@@ -39,12 +58,13 @@ public class BackendService {
 		if(lastMessageId > 0)
 			url.add("lastMessageId", Long.toString(lastMessageId));
 		
-		HttpClient.fetchURL(url.getURL(), new HttpUrlFetcherCallback(callback.getTimeout()) {
+		HttpClient.get(url.getURL(), new HttpRequestCallback(callback.getTimeout()) {
 			
 			@Override
-			public void onResult(HttpUrlFetcherResult result) {
+			public void onResult(HttpResult result) {
 				ArrayList<Message> messages = new ArrayList<Message>();
 				
+				//TODO: Parse results...
 				Log.i(TAG, result.content);				
 				
 				callback.onResult(messages);
@@ -58,12 +78,19 @@ public class BackendService {
 		
 	}
 	
+	public abstract static class PostCallback extends AsyncCallback<String>{
+
+		public PostCallback(int timeout) {
+			super(timeout);
+		}
+		
+	}
+	
 	public abstract static class MessageQueryCallback extends AsyncCallback<ArrayList<Message>>{
 
 		public MessageQueryCallback(int timeout) {
 			super(timeout);
 		}
-
 
 	}
 	

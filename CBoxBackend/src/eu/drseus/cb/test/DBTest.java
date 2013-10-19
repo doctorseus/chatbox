@@ -7,8 +7,8 @@ import org.hibernate.Session;
 import eu.drseus.cb.backend.db.Hibernate;
 import eu.drseus.cb.backend.db.entities.EMessage;
 import eu.drseus.cb.backend.db.entities.EUser;
-import eu.drseus.cb.backend.forum.chat.Message;
-import eu.drseus.cb.backend.forum.user.User;
+import eu.drseus.cb.shared.forum.chat.Message;
+import eu.drseus.cb.shared.forum.user.User;
 
 public class DBTest {
 

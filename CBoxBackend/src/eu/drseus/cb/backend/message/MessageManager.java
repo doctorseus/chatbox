@@ -6,7 +6,7 @@ import java.util.Collections;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import eu.drseus.cb.backend.forum.chat.Message;
+import eu.drseus.cb.shared.forum.chat.Message;
 
 public class MessageManager {
 	

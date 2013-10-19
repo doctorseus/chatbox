@@ -1,4 +1,4 @@
-package eu.drseus.cb.backend.forum.chat;
+package eu.drseus.cb.shared.forum.chat;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -6,8 +6,8 @@ import java.util.Date;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
 
-import eu.drseus.cb.backend.forum.user.User;
-import eu.drseus.cb.backend.util.IJSONable;
+import eu.drseus.cb.shared.forum.user.User;
+import eu.drseus.cb.shared.util.IJSONable;
 
 public class Message implements IJSONable<Message> {
 

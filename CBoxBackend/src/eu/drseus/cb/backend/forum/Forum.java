@@ -26,9 +26,9 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import eu.drseus.cb.backend.forum.chat.Message;
 import eu.drseus.cb.backend.forum.exception.ForumIOException;
-import eu.drseus.cb.backend.forum.user.User;
+import eu.drseus.cb.shared.forum.chat.Message;
+import eu.drseus.cb.shared.forum.user.User;
 
 public class Forum {
 	

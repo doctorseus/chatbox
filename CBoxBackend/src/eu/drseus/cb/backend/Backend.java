@@ -11,13 +11,13 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.http.client.ClientProtocolException;
 
 import eu.drseus.cb.backend.forum.Forum;
-import eu.drseus.cb.backend.forum.chat.Message;
 import eu.drseus.cb.backend.forum.exception.ForumIOException;
 import eu.drseus.cb.backend.gcm.GCMManager;
 import eu.drseus.cb.backend.gcm.PushService;
 import eu.drseus.cb.backend.message.MessageManager;
 import eu.drseus.cb.backend.util.Config;
 import eu.drseus.cb.backend.web.WebServer;
+import eu.drseus.cb.shared.forum.chat.Message;
 
 public class Backend {
 	

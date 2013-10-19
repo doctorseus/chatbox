@@ -62,8 +62,8 @@ public class Hibernate {
 		configuration.setProperty("hibernate.hbm2ddl.auto", "create");
 		
 		//Register Entity classes
-		configuration.addAnnotatedClass(eu.drseus.cb.backend.forum.chat.Message.class);
-		configuration.addAnnotatedClass(eu.drseus.cb.backend.forum.user.User.class);
+		configuration.addAnnotatedClass(eu.drseus.cb.shared.forum.chat.Message.class);
+		configuration.addAnnotatedClass(eu.drseus.cb.shared.forum.user.User.class);
 
 		
 		//configuration.configure(); //Only for loading the XML-File...

@@ -1,9 +1,9 @@
-package eu.drseus.cb.backend.forum.user;
+package eu.drseus.cb.shared.forum.user;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
 
-import eu.drseus.cb.backend.util.IJSONable;
+import eu.drseus.cb.shared.util.IJSONable;
 
 
 public class User implements IJSONable<User>{

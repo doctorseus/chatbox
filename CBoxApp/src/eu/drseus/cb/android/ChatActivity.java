@@ -12,9 +12,10 @@ import com.google.android.gms.gcm.GoogleCloudMessaging;
 
 import eu.drseus.cb.android.backend.BackendService;
 import eu.drseus.cb.android.backend.BackendService.MessageQueryCallback;
+import eu.drseus.cb.android.backend.BackendService.PostCallback;
 import eu.drseus.cb.android.gcm.GcmUtils;
 import eu.drseus.cb.android.gcm.GcmUtils.DeviceRegisterCallback;
-import eu.drseus.cb.backend.forum.chat.Message;
+import eu.drseus.cb.shared.forum.chat.Message;
 
 public class ChatActivity extends Activity {
 	
@@ -45,21 +46,34 @@ public class ChatActivity extends Activity {
         //  GCM registration.
         if (GcmUtils.checkPlayServices(this)) {
             gcm = GoogleCloudMessaging.getInstance(this);
-            regid = GcmUtils.getRegistrationId(context);
+            regid = "";//GcmUtils.getRegistrationId(context);
 
             if (regid.length() == 0) {
             	GcmUtils.registerDevice(this, new DeviceRegisterCallback(10) {
 					
 					@Override
 					public void onResult(String gcmid) {
-						Log.i(TAG, "New GCM-ID arrived: "+gcmid);
+						//Send new gcmid to the backend
+						BackendService.getInstance().registerDevice(gcmid, new PostCallback(60) {
+							
+							public void onResult(String result) {
+								//Success
+								Log.i(TAG, "Success, sending regId to backend");
+							}
+							
+							public void onError(CallbackException e) {
+								 Log.e(TAG, "Error, was not able to send regId to backend: "+e.getMessage());
+							}
+							
+						});
 					}
 					
 					@Override
 					public void onError(CallbackException e) {
-						 Log.e(TAG, "Was not able to register the device: "+e.getMessage());
+						 Log.e(TAG, "Error, was not able to register the device: "+e.getMessage());
 						 e.printStackTrace();
 					}
+					
 				});
 
             }else{

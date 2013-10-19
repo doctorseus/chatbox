@@ -4,12 +4,12 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import eu.drseus.cb.backend.Backend;
-import eu.drseus.cb.backend.forum.chat.Message;
 import eu.drseus.cb.backend.message.MessageManager;
 import eu.drseus.cb.backend.web.servlet.JSONServlet;
 import eu.drseus.cb.backend.web.servlet.util.LocalRequest.RequestInformation;
 import eu.drseus.cb.backend.web.servlet.util.URLParameters;
 import eu.drseus.cb.backend.web.servlet.util.URLParameters.ParameterDoesNotExistException;
+import eu.drseus.cb.shared.forum.chat.Message;
 
 public class ServMessages implements IServ {
 	
