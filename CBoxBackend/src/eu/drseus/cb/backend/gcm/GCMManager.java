@@ -13,9 +13,7 @@ public class GCMManager {
 	
 	private DeviceStorage storage = new DeviceStorage();
 	
-	public GCMManager(){
-		
-	}
+	public GCMManager(){}
 	
 	public void register(String regId) {
 		storage.register(regId);

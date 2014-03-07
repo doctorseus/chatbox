@@ -4,7 +4,6 @@ import java.util.HashMap;
 
 import org.json.simple.JSONObject;
 
-import eu.drseus.cb.backend.Backend;
 import eu.drseus.cb.backend.web.servlet.cmd.CmdRegisterDevice;
 import eu.drseus.cb.backend.web.servlet.cmd.ICmd;
 import eu.drseus.cb.backend.web.servlet.util.LocalRequest.RequestInformation;
@@ -15,15 +14,12 @@ public class CmdServlet extends JSONServlet {
 
 	private HashMap<String, ICmd> cmds = new HashMap<>();
 	
-	private Backend backend;
-	
-	public CmdServlet(Backend backend) {
-		this.backend = backend;
+	public CmdServlet() {
 		register();
 	}
 	
 	private void register() {
-		cmds.put("registerDevice", new CmdRegisterDevice(backend));
+		cmds.put("registerDevice", new CmdRegisterDevice());
 	}
 	
 	@Override

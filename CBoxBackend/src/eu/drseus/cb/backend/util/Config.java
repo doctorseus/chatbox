@@ -6,17 +6,12 @@ import org.apache.commons.configuration.PropertiesConfiguration;
 
 public class Config {
 
-	public static Forum forum;
-	public static Database db;
-	public static GCM gcm;
-	public static Web web;
+	public Forum forum = new Forum();
+	public Database db = new Database();
+	public GCM gcm = new GCM();
+	public Web web = new Web();
 	
-	static {
-		forum = new Forum();
-		db = new Database();
-		gcm = new GCM();
-		web = new Web();
-	}
+	private Config(){}
 	
 	public static class Forum {
 		
@@ -70,34 +65,36 @@ public class Config {
 		
 	}
 	
-	public static String asString() {
-		return "Config [forum=" + Config.forum.toString() + ", db=" + Config.db.toString() + "]";
+	@Override
+	public String toString() {
+		return "Config [forum=" + forum.toString() + ", gcm=" + gcm.toString() + ", web=" + web.toString() + ", db=" + db.toString() + "]";
 	}
-
-	public static void loadConfig(String file) throws ConfigurationException {
+	
+	public static Config createFromFile(String file) throws ConfigurationException {
 		try {
 
+			Config obj = new Config();
+			
 			Configuration config = new PropertiesConfiguration(file);
 
-			forum.user = config.getString("forum.user", "user");
-			forum.password = config.getString("forum.password", "password");
-			forum.refreshDelay = config.getDouble("forum.refreshDelay", 5.0);
+			obj.forum.user = config.getString("forum.user", "user");
+			obj.forum.password = config.getString("forum.password", "password");
+			obj.forum.refreshDelay = config.getDouble("forum.refreshDelay", 5.0);
 			
-			gcm.key = config.getString("gcm.key", "defaultkey");
+			obj.gcm.key = config.getString("gcm.key", "defaultkey");
 			
-			web.port = config.getInt("web.port", 8080);
+			obj.web.port = config.getInt("web.port", 8080);
 
-			db.host = config.getString("db.host", "localhost");
-			db.port = config.getInt("db.port", 0);
-			db.user = config.getString("db.user", "user");
-			db.password = config.getString("db.password", "password");
-			db.database = config.getString("db.database", "database");
+			obj.db.host = config.getString("db.host", "localhost");
+			obj.db.port = config.getInt("db.port", 0);
+			obj.db.user = config.getString("db.user", "user");
+			obj.db.password = config.getString("db.password", "password");
+			obj.db.database = config.getString("db.database", "database");
 
+			return obj;
 		} catch (Exception e) {
 			throw new ConfigurationException(e);
 		}
 	}
-
-
 	
 }

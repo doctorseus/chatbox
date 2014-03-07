@@ -5,11 +5,13 @@ import java.util.Collections;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.context.Lifecycle;
 
 import eu.drseus.cb.shared.forum.chat.Message;
 
-public class MessageManager {
+public class MessageManager implements Lifecycle {
 	
+	private boolean running = false;
 	private Log log = LogFactory.getLog(MessageManager.class);
 	
 	private ArrayList<IMessageListener> listeners = new ArrayList<>();
@@ -20,6 +22,23 @@ public class MessageManager {
 	public MessageManager() {
 		//Load the last 100 messages into the cache
 
+	}
+	
+	@Override
+	public void start() {
+		
+		running = true;
+	}
+
+	@Override
+	public void stop() {
+		
+		running = false;
+	}
+
+	@Override
+	public boolean isRunning() {
+		return running;
 	}
 	
 	public void addListener(IMessageListener listener){

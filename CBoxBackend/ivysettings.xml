@@ -1,0 +1,7 @@
+<ivysettings>
+    <settings defaultResolver="central"/>
+    <resolvers>
+            <ibiblio name="central" m2compatible="true"/>
+            <ibiblio name="io.spring.repo.maven.release" m2compatible="true" root="http://repo.spring.io/release/" />
+    </resolvers>
+</ivysettings>

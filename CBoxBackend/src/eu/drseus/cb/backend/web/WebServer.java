@@ -3,33 +3,47 @@ package eu.drseus.cb.backend.web;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.Lifecycle;
 
-import eu.drseus.cb.backend.Backend;
+import eu.drseus.cb.backend.util.Config;
 import eu.drseus.cb.backend.web.servlet.CmdServlet;
 import eu.drseus.cb.backend.web.servlet.ServServlet;
 
-public class WebServer {
+public class WebServer implements Lifecycle {
 	
-	private Backend backend;
+	private boolean running = false;
+	@Autowired
+	private Config config;
 	
 	private Server jetty;
 	
 	public WebServer(){	}
 	
-	public void init(Backend backend, int port) {
-		this.backend = backend;
-		
-		jetty = new Server(port);
+	@Override
+	public void start() {
+		jetty = new Server(config.web.port);
 		
 		ServletContextHandler servletHandler = new ServletContextHandler(ServletContextHandler.SESSIONS);
-		servletHandler.addServlet(new ServletHolder(new CmdServlet(this.backend)), "/cmd");
-		servletHandler.addServlet(new ServletHolder(new ServServlet(this.backend)), "/serv");
+		servletHandler.addServlet(new ServletHolder(new CmdServlet()), "/cmd");
+		servletHandler.addServlet(new ServletHolder(new ServServlet()), "/serv");
 		
         jetty.setHandler(servletHandler);
         
+		running = true;
 	}
 
-	public void start() throws Exception{
+	@Override
+	public void stop() {
+		running = false;
+	}
+
+	@Override
+	public boolean isRunning() {
+		return running;
+	}
+
+	public void startServer() throws Exception{
 		jetty.start();
 	}
 

@@ -4,7 +4,6 @@ import java.util.HashMap;
 
 import org.json.simple.JSONObject;
 
-import eu.drseus.cb.backend.Backend;
 import eu.drseus.cb.backend.web.servlet.serv.IServ;
 import eu.drseus.cb.backend.web.servlet.serv.ServMessages;
 import eu.drseus.cb.backend.web.servlet.util.LocalRequest.RequestInformation;
@@ -15,15 +14,12 @@ public class ServServlet extends JSONServlet {
 	
 	private HashMap<String, IServ> servs = new HashMap<>();
 	
-	private Backend backend;
-	
-	public ServServlet(Backend backend) {
-		this.backend = backend;
+	public ServServlet() {
 		register();
 	}
 	
 	private void register() {
-		servs.put("messages", new ServMessages(backend));
+		servs.put("messages", new ServMessages());
 	}
 
 	@Override

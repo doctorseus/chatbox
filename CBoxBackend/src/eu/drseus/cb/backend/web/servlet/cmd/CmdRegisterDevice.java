@@ -1,8 +1,9 @@
 package eu.drseus.cb.backend.web.servlet.cmd;
 
 import org.json.simple.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 
-import eu.drseus.cb.backend.Backend;
+import eu.drseus.cb.backend.gcm.GCMManager;
 import eu.drseus.cb.backend.web.servlet.JSONServlet;
 import eu.drseus.cb.backend.web.servlet.util.LocalRequest.RequestInformation;
 import eu.drseus.cb.backend.web.servlet.util.URLParameters;
@@ -10,11 +11,8 @@ import eu.drseus.cb.backend.web.servlet.util.URLParameters.ParameterDoesNotExist
 
 public class CmdRegisterDevice implements ICmd {
 	
-	private Backend backend;
-
-	public CmdRegisterDevice(Backend backend) {
-		this.backend = backend;
-	}
+	@Autowired
+	private GCMManager gcmManager;
 
 	@Override
 	public JSONObject processCommand(RequestInformation reqInfo) {
@@ -22,7 +20,7 @@ public class CmdRegisterDevice implements ICmd {
 		
 		try {
 			String regId = parameters.getString("regId");
-			backend.getGcmManager().register(regId);			
+			gcmManager.register(regId);			
 			return JSONServlet.getSuccess();
 		} catch (ParameterDoesNotExistException e) {	
 			return JSONServlet.getError("regId parameter missing.");

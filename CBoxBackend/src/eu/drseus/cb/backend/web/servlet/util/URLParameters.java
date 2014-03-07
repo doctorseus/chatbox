@@ -22,6 +22,7 @@ public class URLParameters {
 
 	}
 
+	@SuppressWarnings("unchecked")
 	public static URLParameters create(HttpServletRequest req) {
 		URLParameters parameters = new URLParameters();
 

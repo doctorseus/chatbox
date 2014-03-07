@@ -8,40 +8,57 @@ import java.util.concurrent.Executors;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.Lifecycle;
 
 import com.google.android.gcm.server.Constants;
 import com.google.android.gcm.server.MulticastResult;
 import com.google.android.gcm.server.Result;
 import com.google.android.gcm.server.Sender;
 
-import eu.drseus.cb.backend.Backend;
 import eu.drseus.cb.backend.message.IMessageListener;
+import eu.drseus.cb.backend.util.Config;
 import eu.drseus.cb.shared.forum.chat.Message;
 
-public class PushService implements IMessageListener {
+public class PushService implements IMessageListener, Lifecycle {
 
 	private static boolean SINGLE_DEVICE_DEBUG = true;
 	
 	private Log log = LogFactory.getLog(PushService.class);
+	private boolean running = false;
+	@Autowired
+	private Config config;
 	
-	private Backend backend;
+	@Autowired
+	private GCMManager gcmManager;
 	
 	private Sender sender;
+
 	private static final int MULTICAST_SIZE = 1000;
 	private static final Executor threadPool = Executors.newFixedThreadPool(5);
 	
 	public PushService(){ }
 	
-	public void init(Backend backend, String key) {
-		this.backend = backend;
-		this.sender = new Sender(key);
-	}	
+	@Override
+	public void start() {
+		this.sender = new Sender(config.gcm.key);
+		running = true;
+	}
+
+	@Override
+	public void stop() {
+		running = false;
+	}
+
+	@Override
+	public boolean isRunning() {
+		return running;
+	}
 
 	@Override
 	public void onUpdate(ArrayList<Message> newMessages, ArrayList<Message> updatedMessages) {
 		if(newMessages.size() > 0 /*|| updatedMessages.size() > 0*/){
-			
-			GCMManager gcmManager = backend.getGcmManager();
+
 			List<String> devices = gcmManager.getAllDevices();
 
 			List<String> partialDevices = new ArrayList<String>(MULTICAST_SIZE);
@@ -91,7 +108,7 @@ public class PushService implements IMessageListener {
 							if (canonicalRegId != null) {
 								// same device has more than on registration id:
 								// update it
-								backend.getGcmManager().updateRegistration(regId, canonicalRegId);
+								gcmManager.updateRegistration(regId, canonicalRegId);
 							}
 
 						} else {
@@ -99,7 +116,7 @@ public class PushService implements IMessageListener {
 							if (error.equals(Constants.ERROR_NOT_REGISTERED)) {
 								// application has been removed from device -
 								// unregister it
-								backend.getGcmManager().unregister(regId);
+								gcmManager.unregister(regId);
 							} else {
 								if (SINGLE_DEVICE_DEBUG)
 									log.error("Error sending message to " + regId + ": " + error);
